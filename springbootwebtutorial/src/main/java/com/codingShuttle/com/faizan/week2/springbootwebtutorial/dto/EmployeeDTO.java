@@ -1,4 +1,4 @@
-package com.codingShuttle.com.faizan.week2.springbootwebtutorial.DTO;
+package com.codingShuttle.com.faizan.week2.springbootwebtutorial.dto;
 
 import java.time.LocalDate;
 public class EmployeeDTO {

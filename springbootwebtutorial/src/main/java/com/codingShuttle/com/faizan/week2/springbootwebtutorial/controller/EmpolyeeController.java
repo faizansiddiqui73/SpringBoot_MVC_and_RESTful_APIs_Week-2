@@ -1,7 +1,7 @@
-package com.codingShuttle.com.faizan.week2.springbootwebtutorial.Controller;
+package com.codingShuttle.com.faizan.week2.springbootwebtutorial.controller;
 
 
-import com.codingShuttle.com.faizan.week2.springbootwebtutorial.DTO.EmployeeDTO;
+import com.codingShuttle.com.faizan.week2.springbootwebtutorial.dto.EmployeeDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
