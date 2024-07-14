@@ -2,10 +2,7 @@ package com.codingShuttle.com.faizan.week2.springbootwebtutorial.Controller;
 
 
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.DTO.EmployeeDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
@@ -34,6 +31,12 @@ public class EmpolyeeController {
     // employee?id=123 //it is optional
     @GetMapping(path = "/employees")
     public String getAllEmployees(@RequestParam(required = false) Integer age){
-        return "Hi my "+age;
+        return "Hi my age is: "+age;
+    }
+
+    @PostMapping(path = "/employees")
+    public EmployeeDTO crateNewEmployee(@RequestBody EmployeeDTO inputEmployee){
+        inputEmployee.setId(100L);
+        return inputEmployee;
     }
 }
