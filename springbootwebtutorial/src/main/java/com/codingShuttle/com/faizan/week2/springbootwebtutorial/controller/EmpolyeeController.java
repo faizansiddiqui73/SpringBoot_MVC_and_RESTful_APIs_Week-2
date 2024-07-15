@@ -1,8 +1,8 @@
 package com.codingShuttle.com.faizan.week2.springbootwebtutorial.controller;
 
 
+import com.codingShuttle.com.faizan.week2.springbootwebtutorial.dto.EmployeeDTO;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.entities.EmployeeEntity;
-import com.codingShuttle.com.faizan.week2.springbootwebtutorial.repositories.EmployeeRepository;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,19 +34,19 @@ public class EmpolyeeController {
     //PathVariable
     //employee/123
     @GetMapping(path = "/employees/{employeeId}")
-    public EmployeeEntity getEmployeeById(@PathVariable(name = "employeeId") Long id) {
+    public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id) {
         return employeeService.getEmployeeById(id);
     }
 
     //RequestParam
     // employee?id=123 //it is optional
     @GetMapping(path = "/employees")
-    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false) Integer age) {
+    public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false) Integer age) {
         return employeeService.getAllEmployees();
     }
 
     @PostMapping(path = "/employees")
-    public EmployeeEntity crateNewEmployee(@RequestBody EmployeeEntity inputEmployee) {
+    public EmployeeDTO crateNewEmployee(@RequestBody EmployeeDTO inputEmployee) {
 //        inputEmployee.setId(100L);
         return employeeService.createNewEmployee(inputEmployee);
     }

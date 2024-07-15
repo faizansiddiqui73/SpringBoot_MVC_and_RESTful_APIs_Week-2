@@ -1,32 +1,44 @@
 package com.codingShuttle.com.faizan.week2.springbootwebtutorial.services;
 
+import com.codingShuttle.com.faizan.week2.springbootwebtutorial.dto.EmployeeDTO;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.entities.EmployeeEntity;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.repositories.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final ModelMapper modelMapper;
+    //whatever needed most create a bean of it and inject it.
 
-
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, ModelMapper modelMapper) {
         this.employeeRepository = employeeRepository;
+        this.modelMapper = modelMapper;
     }
 
 
-    public EmployeeEntity getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElse(null);
+    public EmployeeDTO getEmployeeById(Long id) {
+        EmployeeEntity employeeEntity = employeeRepository.findById(id).orElse(null);
+        return modelMapper.map(employeeEntity, EmployeeDTO.class);
     }
 
-    public List<EmployeeEntity> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> getAllEmployees() {
+        List<EmployeeEntity> employeeEntities = employeeRepository.findAll();
+        return employeeEntities
+                .stream()
+                .map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public EmployeeEntity createNewEmployee(EmployeeEntity inputEmployee) {
-        return employeeRepository.save(inputEmployee);
+    public EmployeeDTO createNewEmployee(EmployeeDTO inputEmployee) {
+        //giving the DTO 1// covert the dto in entity coz the employeeRepository only save the entity
+        EmployeeEntity toSaveEntity = modelMapper.map(inputEmployee,EmployeeEntity.class); //coverts to DTO to entity
+        EmployeeEntity employeeEntity =  employeeRepository.save(toSaveEntity);
+        return modelMapper.map(employeeEntity,EmployeeDTO.class);
     }
 }
