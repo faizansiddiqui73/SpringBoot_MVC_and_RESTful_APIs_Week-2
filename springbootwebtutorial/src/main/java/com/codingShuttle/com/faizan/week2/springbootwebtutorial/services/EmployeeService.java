@@ -37,8 +37,28 @@ public class EmployeeService {
 
     public EmployeeDTO createNewEmployee(EmployeeDTO inputEmployee) {
         //giving the DTO 1// covert the dto in entity coz the employeeRepository only save the entity
-        EmployeeEntity toSaveEntity = modelMapper.map(inputEmployee,EmployeeEntity.class); //coverts to DTO to entity
-        EmployeeEntity employeeEntity =  employeeRepository.save(toSaveEntity);
-        return modelMapper.map(employeeEntity,EmployeeDTO.class);
+        EmployeeEntity toSaveEntity = modelMapper.map(inputEmployee, EmployeeEntity.class); //coverts to DTO to entity
+        EmployeeEntity employeeEntity = employeeRepository.save(toSaveEntity);
+        return modelMapper.map(employeeEntity, EmployeeDTO.class);
+    }
+
+    public EmployeeDTO updateEmployeeById(Long employeeId, EmployeeDTO employeeDTO) {
+        //find
+        EmployeeEntity conversionToEnity = modelMapper.map(employeeDTO, EmployeeEntity.class);
+        conversionToEnity.setId(employeeId);
+        EmployeeEntity toSaveEntity = employeeRepository.save(conversionToEnity); //entity to class
+        return modelMapper.map(toSaveEntity, EmployeeDTO.class);
+    }
+
+
+    public boolean deleteEmployeeById(Long employeeId) {
+        boolean exists = employeeRepository.existsById(employeeId);
+        if (!exists) {
+            return false;
+        } else {
+            employeeRepository.deleteById(employeeId);
+            return false;
+        }
+
     }
 }

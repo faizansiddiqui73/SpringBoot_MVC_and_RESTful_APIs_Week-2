@@ -2,7 +2,6 @@ package com.codingShuttle.com.faizan.week2.springbootwebtutorial.controller;
 
 
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.dto.EmployeeDTO;
-import com.codingShuttle.com.faizan.week2.springbootwebtutorial.entities.EmployeeEntity;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,8 +45,18 @@ public class EmpolyeeController {
     }
 
     @PostMapping(path = "/employees")
-    public EmployeeDTO crateNewEmployee(@RequestBody EmployeeDTO inputEmployee) {
+    public EmployeeDTO crateNewEmployee(@RequestBody EmployeeDTO employeeDTO) {
 //        inputEmployee.setId(100L);
-        return employeeService.createNewEmployee(inputEmployee);
+        return employeeService.createNewEmployee(employeeDTO);
+    }
+
+    @PutMapping(path = "/employees/{employeeId}")
+    public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO,@PathVariable Long employeeId){
+        return employeeService.updateEmployeeById(employeeId,employeeDTO);
+    }
+
+    @DeleteMapping(path = "/employees/{employeeId}")
+    public boolean deleteEmployeById(@PathVariable  Long employeeId){
+         return employeeService.deleteEmployeeById(employeeId);
     }
 }
