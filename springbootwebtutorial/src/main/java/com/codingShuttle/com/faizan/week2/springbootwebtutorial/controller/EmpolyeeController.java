@@ -6,6 +6,7 @@ import com.codingShuttle.com.faizan.week2.springbootwebtutorial.services.Employe
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class EmpolyeeController {
@@ -51,12 +52,19 @@ public class EmpolyeeController {
     }
 
     @PutMapping(path = "/employees/{employeeId}")
-    public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO,@PathVariable Long employeeId){
-        return employeeService.updateEmployeeById(employeeId,employeeDTO);
+    public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
+        return employeeService.updateEmployeeById(employeeId, employeeDTO);
     }
 
     @DeleteMapping(path = "/employees/{employeeId}")
-    public boolean deleteEmployeById(@PathVariable  Long employeeId){
-         return employeeService.deleteEmployeeById(employeeId);
+    public boolean deleteEmployeById(@PathVariable Long employeeId) {
+        return employeeService.deleteEmployeeById(employeeId);
+    }
+
+    @PatchMapping(path = "/employees/{employeeId}")
+    public EmployeeDTO partialUpdateOfEmployeeById(@RequestBody Map<String, Object> updates,
+                                                   @PathVariable Long employeeId) {
+        return employeeService.partialUpdateOfEmployeeById(updates,employeeId);
+
     }
 }

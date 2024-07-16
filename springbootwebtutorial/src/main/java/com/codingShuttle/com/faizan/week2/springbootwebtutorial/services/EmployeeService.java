@@ -4,9 +4,12 @@ import com.codingShuttle.com.faizan.week2.springbootwebtutorial.dto.EmployeeDTO;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.entities.EmployeeEntity;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,9 +53,12 @@ public class EmployeeService {
         return modelMapper.map(toSaveEntity, EmployeeDTO.class);
     }
 
+    public boolean isExistsEmployeeById(Long employeeId){
+        return employeeRepository.existsById(employeeId);
+    }
 
     public boolean deleteEmployeeById(Long employeeId) {
-        boolean exists = employeeRepository.existsById(employeeId);
+        boolean exists = isExistsEmployeeById(employeeId);
         if (!exists) {
             return false;
         } else {
@@ -60,5 +66,19 @@ public class EmployeeService {
             return false;
         }
 
+    }
+
+    public EmployeeDTO partialUpdateOfEmployeeById(Map<String, Object> updates, Long employeeId) {
+        boolean exists = isExistsEmployeeById(employeeId);
+        if(!exists) return null;
+        //FindById
+        EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).get();
+        updates.forEach((field,value)-> {
+          Field fieldToBeUpdated = ReflectionUtils.findRequiredField(EmployeeEntity.class,field); //is used to find the Field object corresponding to the field name in the EmployeeEntity class.
+          fieldToBeUpdated.setAccessible(true); //make it accessible
+          ReflectionUtils.setField(fieldToBeUpdated,employeeEntity ,value); // sets the new value to the field in the employeeEntity object.
+        });
+        EmployeeEntity toSaveEntity = employeeRepository.save(employeeEntity);
+        return modelMapper.map(toSaveEntity,EmployeeDTO.class);
     }
 }
