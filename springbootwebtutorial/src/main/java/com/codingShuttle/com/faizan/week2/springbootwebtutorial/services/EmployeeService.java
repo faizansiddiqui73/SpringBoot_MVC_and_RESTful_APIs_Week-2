@@ -42,7 +42,7 @@ public class EmployeeService {
         //giving the DTO 1// covert the dto in entity coz the employeeRepository only save the entity
         EmployeeEntity toSaveEntity = modelMapper.map(inputEmployee, EmployeeEntity.class); //coverts to DTO to entity
         EmployeeEntity employeeEntity = employeeRepository.save(toSaveEntity);
-        return modelMapper.map(employeeEntity, EmployeeDTO.class);
+        return modelMapper.map(employeeEntity, EmployeeDTO.class); //converted back to DTO
     }
 
     public EmployeeDTO updateEmployeeById(Long employeeId, EmployeeDTO employeeDTO) {
