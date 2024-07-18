@@ -13,13 +13,13 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-public class EmpolyeeController {
+public class EmployeeController {
 
     //2.4 Injecting the DI via Service layer
     //Constructor Injection
     private EmployeeService employeeService;
 
-    public EmpolyeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -52,7 +52,7 @@ public class EmpolyeeController {
     }
 
     @PutMapping(path = "/employees/{employeeId}")
-    public ResponseEntity<EmployeeDTO> updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
+    public ResponseEntity<EmployeeDTO> updateEmployeeById(@RequestBody @Valid EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
         return  ResponseEntity.ok(employeeService.updateEmployeeById(employeeId,employeeDTO));
     }
 
