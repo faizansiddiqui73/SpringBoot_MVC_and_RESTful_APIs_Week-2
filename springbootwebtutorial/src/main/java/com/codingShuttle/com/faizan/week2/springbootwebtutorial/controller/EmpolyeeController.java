@@ -3,6 +3,7 @@ package com.codingShuttle.com.faizan.week2.springbootwebtutorial.controller;
 
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.dto.EmployeeDTO;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class EmpolyeeController {
     }
 
     @PostMapping(path = "/employees")
-    public ResponseEntity<EmployeeDTO> crateNewEmployee(@RequestBody EmployeeDTO inputEmployee) {
+    public ResponseEntity<EmployeeDTO> crateNewEmployee(@RequestBody @Valid EmployeeDTO inputEmployee) {
         EmployeeDTO savedEmployee = employeeService.createNewEmployee(inputEmployee);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
