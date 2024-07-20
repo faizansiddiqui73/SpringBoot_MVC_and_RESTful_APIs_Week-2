@@ -2,6 +2,7 @@ package com.codingShuttle.com.faizan.week2.springbootwebtutorial.services;
 
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.dto.EmployeeDTO;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.entities.EmployeeEntity;
+import com.codingShuttle.com.faizan.week2.springbootwebtutorial.exceptions.ResourceNotFoundException;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
@@ -25,7 +26,6 @@ public class EmployeeService {
         this.modelMapper = modelMapper;
     }
 
-
     public Optional<EmployeeDTO> getEmployeeById(Long id) {
 //        Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(id);
         return employeeRepository.findById(id).map(employeeEntity -> modelMapper.map(employeeEntity,EmployeeDTO.class));
@@ -46,33 +46,31 @@ public class EmployeeService {
         EmployeeEntity employeeEntity = employeeRepository.save(toSaveEntity);
         return modelMapper.map(employeeEntity, EmployeeDTO.class); //converted back to DTO
     }
+    public boolean isExistsEmployeeById(Long employeeId){
+        boolean exists = employeeRepository.existsById(employeeId);
+        if(!exists) throw new ResourceNotFoundException("Employee Not Found: " + employeeId);
+        return true;
+    }
 
     public EmployeeDTO updateEmployeeById(Long employeeId, EmployeeDTO employeeDTO) {
         //find
+       isExistsEmployeeById(employeeId);
         EmployeeEntity conversionToEnity = modelMapper.map(employeeDTO, EmployeeEntity.class);
         conversionToEnity.setId(employeeId);
         EmployeeEntity toSaveEntity = employeeRepository.save(conversionToEnity); //entity to class
         return modelMapper.map(toSaveEntity, EmployeeDTO.class);
     }
 
-    public boolean isExistsEmployeeById(Long employeeId){
-        return employeeRepository.existsById(employeeId);
-    }
+
 
     public boolean deleteEmployeeById(Long employeeId) {
-        boolean exists = isExistsEmployeeById(employeeId);
-        if (!exists) {
-            return false;
-        } else {
-            employeeRepository.deleteById(employeeId);
-            return false;
-        }
-
+       isExistsEmployeeById(employeeId);
+       employeeRepository.deleteById(employeeId);
+       return true;
     }
 
     public EmployeeDTO partialUpdateOfEmployeeById(Long employeeId, Map<String, Object> updates) {
-        boolean exists = isExistsEmployeeById(employeeId);
-        if(!exists) return null;
+        isExistsEmployeeById(employeeId);
         //FindById
         EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).get();
         updates.forEach((field,value)-> {
