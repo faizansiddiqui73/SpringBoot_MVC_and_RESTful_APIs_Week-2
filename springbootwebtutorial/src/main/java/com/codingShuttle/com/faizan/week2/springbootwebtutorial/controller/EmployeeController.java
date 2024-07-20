@@ -2,6 +2,7 @@ package com.codingShuttle.com.faizan.week2.springbootwebtutorial.controller;
 
 
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.dto.EmployeeDTO;
+import com.codingShuttle.com.faizan.week2.springbootwebtutorial.exceptions.ResourceNotFoundException;
 import com.codingShuttle.com.faizan.week2.springbootwebtutorial.services.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class EmployeeController {
         Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
         return employeeDTO
                 .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
-                .orElseThrow(()-> new NoSuchElementException("Employee Not Found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Employee Not Found"));
 //                .orElse(ResponseEntity.notFound().build());
     }
 
