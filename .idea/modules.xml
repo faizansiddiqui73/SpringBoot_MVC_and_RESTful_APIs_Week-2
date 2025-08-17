@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SpringBoot_MVC_and_RESTful_APIs_Week-2.iml" filepath="$PROJECT_DIR$/.idea/SpringBoot_MVC_and_RESTful_APIs_Week-2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/springbootwebtutorial/springbootwebtutorial.iml" filepath="$PROJECT_DIR$/springbootwebtutorial/springbootwebtutorial.iml" />
     </modules>
   </component>
 </project>
